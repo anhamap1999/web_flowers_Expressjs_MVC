@@ -13,7 +13,7 @@ const FlowerSchema = new schema({
         required: true,
     },
     search_text: {
-        type: String,//flower_name + description
+        type: String,
     },
     unit_price: {
         type: Number,
