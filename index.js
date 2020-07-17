@@ -3,11 +3,12 @@ const mongoose = require('mongoose');
 const bodyparser = require('body-parser');
 const url = require('url');
 const multer = require('multer');
-
+const dotenv = require('dotenv');
 
 const app = express();
 
-mongoose.connect("mongodb://localhost:27017/flowers_database", {useNewUrlParser: true});
+const port = process.env.PORT;
+mongoose.connect(`mongodb://localhost:${process.env.PORT}/flowers_database`, {useNewUrlParser: true});
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -19,6 +20,6 @@ app.use(express.json());
 const router = require('./routes/index');
 app.use(router);
 
-const server = app.listen(27017, () => {
-    console.log("Listen to 27017 port");
+const server = app.listen(process.env.PORT, () => {
+    console.log(`Listen to ${process.env.PORT} port`);
 });
