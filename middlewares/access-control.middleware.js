@@ -19,24 +19,24 @@ roles.grant('admin')
     .createAny('category')
     .updateAny('category')
     .deleteAny('category')
-    .readAny('account')    
+    .readAny('account')
     .deleteAny('account')
-    .readAny('order')    
+    .readAny('order')
     .readAny('cart')
-    
+
 //const {roles} = require('../roles/roles');
 
 exports.grantAccess = (action, resource) => {
-    return async(req, res, next) => {
+    return async (req, res, next) => {
         try {
-            const permission = roles.can(req.role)[action](resource);
+            const permission = roles.can(req.user.role)[action](resource);
             if (permission.granted) {
                 next();
             } else {
                 throw error;
             }
-        } catch(error) {
-            res.status(403).json({message: 'No permission!'});
+        } catch (error) {
+            res.status(403).json({ message: 'No permission!' });
         }
     };
 };
