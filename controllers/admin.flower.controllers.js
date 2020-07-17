@@ -1,5 +1,4 @@
 const Flower = require('../models/flower');
-//const accents = require('remove-accents');
 
 exports.addFlower = async (req, res) => {
     try {
@@ -20,7 +19,7 @@ exports.updateFlower = async (req, res) => {
         await Flower.findOneAndUpdate({ _id: req.params.id, status: 'active' }, req.body);
 
         //flower.image.image_name = req.files.image.name;
-        const flower = await Flower.findOne({ _id: req.params.id, status: 'active' });
+        let flower = await Flower.findOne({ _id: req.params.id, status: 'active' });
 
         flower.search_text = flower.flower_name + " " + flower.description;
 
@@ -33,7 +32,7 @@ exports.updateFlower = async (req, res) => {
 
 exports.deleteFlower = async (req, res) => {
     try {
-        const flower = await Flower.findOne({ _id: req.params.id, status: 'active' });
+        let flower = await Flower.findOne({ _id: req.params.id, status: 'active' });
         flower.status = 'disabled';
         const result = await flower.save();
         res.status(200).json({ flower: result });
