@@ -6,7 +6,7 @@ exports.uploadImage = (req, res, next) => {
     /*
     if (file && (file.mimetype === "image/png" || file.mimetype === "image/jpeg")) {
         const diskStorage = multer.diskStorage({
-            destination: '../uploads',
+            destination: './uploads',
             filename: `${Date.now()}`+`${file.name}`
         });
         multer({storage: diskStorage}).single('file');

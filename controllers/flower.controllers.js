@@ -45,8 +45,8 @@ exports.addFlower = (req, res) => {
         "quantity": req.body.quantity,
         "image": {
             //"image_name": req.files.image.name,
-            "image_name": req.body.image,
-            "image_path": "../uploads"
+            "image_name": req.body.image.image_name,
+            "image_path": "./uploads"
         },
         "description": req.body.description
     }           
