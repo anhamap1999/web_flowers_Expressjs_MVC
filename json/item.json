@@ -1,21 +1,21 @@
 [{
     "flower_id": "5f0ec4e19f4eab48f4ad05ec",
     "unit_price": "25000",
-    "quatity": 1
+    "quantity": 1
 }, {
     "flower_id": "5f0ec4e99f4eab48f4ad05ed",
     "unit_price": "60000",
-    "quatity": 1
+    "quantity": 1
 }, {
     "flower_id": "5f0ec4f09f4eab48f4ad05ee",
     "unit_price": "45000",
-    "quatity": 1
+    "quantity": 1
 }, {
     "flower_id": "5f0ec4fa9f4eab48f4ad05ef",
     "unit_price": "40000",
-    "quatity": 1
+    "quantity": 1
 }, {
     "flower_id": "5f0ec5029f4eab48f4ad05f0",
     "unit_price": "70000",
-    "quatity": 1
+    "quantity": 1
 }]

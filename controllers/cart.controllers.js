@@ -26,32 +26,32 @@ exports.getCart = (req, res) => {
 };
 
 exports.addItem = (req, res) => {
-    const {flower_id, quatity, unit_price} = req.body;
+    const {flower_id, quantity, unit_price} = req.body;
     //Cart.findOne({username: req.jwtDecoded.data.username}, (err, cart) => {
     Cart.findOne({username: req.params.username}, (err, cart) => {
         if (err) {
             res.status(500).json(err);
-        } else if (!cart && quatity <= 0) {
+        } else if (!cart && quantity <= 0) {
             res.status(400).json('Invalid request!');
         }
         else if (cart) {
             const indexFound = cart.items.findIndex(item => {
                 return item.flower_id === flower_id;
             });
-            if (indexFound !== -1 && quatity <= 0) {
+            if (indexFound !== -1 && quantity <= 0) {
                 cart.items.splice(indexFound, 1);
             }
             else if (indexFound !== -1) {
-                cart.items[indexFound].quatity += quatity;
-                cart.total_price += quatity * unit_price;
+                cart.items[indexFound].quantity += quantity;
+                cart.total_price += quantity * unit_price;
             }
-            else if (quatity > 0) {
+            else if (quantity > 0) {
                 cart.items.push({
                     flower_id: flower_id,
-                    quatity: quatity,
+                    quantity: quantity,
                     unit_price: unit_price
                 });
-                cart.total_price += quatity * unit_price;
+                cart.total_price += quantity * unit_price;
             } else {
                 res.status(400).json('Invalid request!');
             }
@@ -67,10 +67,10 @@ exports.addItem = (req, res) => {
                 username: req.jwtDecoded.data.username,
                 items: {
                     flower_id: flower_id,
-                    quatity: quatity,
+                    quantity: quantity,
                     unit_price: unit_price
                 },
-                total_price: quatity * unit_price
+                total_price: quantity * unit_price
             }
             const cart = new Cart(cartData);
             cart.save((err, result) => {
@@ -91,7 +91,7 @@ exports.deleteItem = (req, res) => {
                 return item.flower_id == req.params.id;
             });
             if (indexFound > -1) {
-                cart.total_price -= cart.items[indexFound].quatity * cart.items[indexFound].unit_price;
+                cart.total_price -= cart.items[indexFound].quantity * cart.items[indexFound].unit_price;
                 cart.items.splice(indexFound, 1);
                 return cart.save();
             } else {

@@ -6,9 +6,9 @@ const ItemSchema = new schema({
         type: String, 
         required: true
     },
-    quatity: {
+    quantity: {
         type: Number, 
-        min: [1, 'Quatity can not be less than 1!'], 
+        min: [1, 'Quantity can not be less than 1!'], 
         required: true
     },
     unit_price: {

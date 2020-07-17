@@ -11,13 +11,13 @@
         {
             "flower_id": "5f0ec4e19f4eab48f4ad05ec",
             "flower_name": "\u0110\u00f3n xu\u00e2n",            
-            "quatity": 1,
+            "quantity": 1,
             "unit_price": 50000
         },
         {
             "flower_id": "5f0ec4e99f4eab48f4ad05ed",
             "flower_name": "H\u1ed3n nhi\u00ean",
-            "quatity": 1,
+            "quantity": 1,
             "unit_price": 60000
         }
     ]

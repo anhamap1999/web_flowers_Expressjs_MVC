@@ -53,7 +53,7 @@ exports.placeOrder = (req, res) => {
             payment_method: req.body.payment_method,
             items: req.body.items,
             total_price: orderData.items.reduce((total, item) => {
-                return total + item.unit_price * item.quatity;
+                return total + item.unit_price * item.quantity;
             }, 0)
         };
         
@@ -68,7 +68,7 @@ exports.placeOrder = (req, res) => {
                 if (err) {
                     res.status(500).json(err);
                 } else if (flower) {
-                    flower.quatity = flower.quatity - item.quatity;
+                    flower.quantity = flower.quantity - item.quantity;
                     flower.save((err, flower) => {
                         if (err) {
                             res.status(500).json(err);
@@ -89,9 +89,9 @@ exports.placeOrder = (req, res) => {
                         return item_in_cart.flower_id === item.flower_id;
                     });
                     if (indexFound > -1) {
-                        cart.items[indexFound].quatity = cart.items[indexFound].quatity - item.quatity;
-                        cart.total_price -= item.quatity * item.unit_price;
-                        if (cart.items[indexFound].quatity <= 0) {
+                        cart.items[indexFound].quantity = cart.items[indexFound].quantity - item.quantity;
+                        cart.total_price -= item.quantity * item.unit_price;
+                        if (cart.items[indexFound].quantity <= 0) {
                             cart.items.splice(indexFound, 1);
                         }                                     
                     }               
@@ -128,7 +128,7 @@ exports.placeOrder = (req, res) => {
                 //savedOrder.items.map(item => {
                     return Flower.findById(item.flower_id)
                     .then(flower => {
-                        flower.quatity = flower.quatity - item.quatity;
+                        flower.quantity = flower.quantity - item.quantity;
                         return flower.save();
                     });
                              
@@ -144,9 +144,9 @@ exports.placeOrder = (req, res) => {
                                             return item_in_cart.flower_id === item.flower_id;
                                         });
                                         if (indexFound > -1) {
-                                            cart.items[indexFound].quatity = cart.items[indexFound].quatity - item.quatity;
-                                            cart.total_price -= item.quatity * item.unit_price;
-                                            if (cart.items[indexFound].quatity <= 0) {
+                                            cart.items[indexFound].quantity = cart.items[indexFound].quantity - item.quantity;
+                                            cart.total_price -= item.quantity * item.unit_price;
+                                            if (cart.items[indexFound].quantity <= 0) {
                                                 cart.items.splice(indexFound, 1);
                                             }                                     
                                         }
@@ -194,9 +194,9 @@ exports.placeOrder = (req, res) => {
                         return item_in_cart.flower_id === item.flower_id;
                     });
                     if (indexFound > -1) {
-                        cart.items[indexFound].quatity = cart.items[indexFound].quatity - item.quatity;
-                        cart.total_price -= item.quatity * item.unit_price;
-                        if (cart.items[indexFound].quatity <= 0) {
+                        cart.items[indexFound].quantity = cart.items[indexFound].quantity - item.quantity;
+                        cart.total_price -= item.quantity * item.unit_price;
+                        if (cart.items[indexFound].quantity <= 0) {
                             cart.items.splice(indexFound, 1);
                         }
                     }

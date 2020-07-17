@@ -42,7 +42,7 @@ exports.addFlower = (req, res) => {
         "category_id": req.body.category_id,
         "flower_name": req.body.flower_name,
         "unit_price": req.body.unit_price,
-        "quatity": req.body.quatity,
+        "quantity": req.body.quantity,
         "image": {
             //"image_name": req.files.image.name,
             "image_name": req.body.image,
@@ -70,7 +70,7 @@ exports.updateFlower = (req, res) => {
                 "category_id": req.body.category_id ? req.body.category_id : flower.category_id,
                 "flower_name": req.body.flower_name ? req.body.flower_name : flower.flower_name,
                 "unit_price": req.body.unit_price ? req.body.unit_price : flower.unit_price,
-                "quatity": req.body.quatity ? req.body.quatity : flower.quatity,
+                "quantity": req.body.quantity ? req.body.quantity : flower.quantity,
                 "image": {
                     //"image_name": req.files.image.name ? req.files.image.name : flower.image.image_name,
                     "image_name": req.body.image ? req.body.image : flower.image.image_name,
