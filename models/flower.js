@@ -11,11 +11,9 @@ const FlowerSchema = new schema({
         type: String,
         maxlength: 50,
         required: true,
-        index: 'text',
     },
     search_text: {
         type: String,//flower_name + description
-        index: 'text',
     },
     unit_price: {
         type: Number,
@@ -34,13 +32,13 @@ const FlowerSchema = new schema({
         },
         image_path: {
             type: String,
-            required: true
+            required: true,
+            default: './uploads'
         }
     },
     description: {
         type: String,
         maxlength: 1000,
-        index: 'text',
     },
     status: {
         type: String,
@@ -48,5 +46,9 @@ const FlowerSchema = new schema({
         enum: ['active', 'disabled']
     }
 });
-
+FlowerSchema.indexes({
+    flower_name: 'text',
+    description: 'text',
+    search_text: 'text'
+});
 module.exports = mongoose.model('flower', FlowerSchema);

@@ -1,6 +1,7 @@
 const express = require('express');
 
-const {listFlowers, getFlower, getFlowerByCategory, addFlower, updateFlower, deleteFlower} = require('../controllers/flower.controllers');
+const {listFlowers, getFlower, getFlowerByCategory} = require('../controllers/flower.controllers');
+const {addFlower, updateFlower, deleteFlower} = require('../controllers/admin.flower.controllers');
 const {isAuth} = require('../middlewares/auth.middleware');
 const {grantAccess} = require('../middlewares/access-control.middleware');
 const {uploadImage} = require('../middlewares/upload-image.middleware');
