@@ -1,21 +1,21 @@
 const express = require('express');
 
-const UserControllers = require('../controllers/UserControllers');
-const AuthControllers = require('../controllers/AuthControllers');
-const {UserValidator} = require('../validators/validator');
-const {isAuth} = require('../middlewares/AuthMiddleware');
-const {grantAccess} = require('../middlewares/AccessControlMiddleware');
+const {getUser, listUsers, updateUser, deleteUser} = require('../controllers/user.controllers');
+const {register, login, refreshToken, logout} = require('../controllers/auth.controllers');
+const {UserValidator} = require('../validators/user.validator');
+const {isAuth} = require('../middlewares/auth.middleware');
+const {grantAccess} = require('../middlewares/access-control.middleware');
 
 const router = express.Router();
-router.post('/register', UserValidator, AuthControllers.register);
-router.post('/login', UserValidator, AuthControllers.login);
-router.post('/refresh-token', AuthControllers.refreshToken);
+router.post('/register', UserValidator, register);
+router.post('/login', UserValidator, login);
+router.post('/refresh-token', refreshToken);
 
 router.use(isAuth);
-router.get('/:username', grantAccess('readOwn', 'account'), UserControllers.getUser);
-router.get('/list', grantAccess('readAny', 'account'), UserControllers.listUsers);
-router.put('/update/:username', grantAccess('updateOwn', 'account'), UserControllers.updateUser);
-router.get('/logout', grantAccess('readOwn', 'account'), AuthControllers.logout);
-router.delete('/delete/:username', grantAccess('deleteOwn', 'account'), UserControllers.deleteUser);
+router.get('/:username', grantAccess('readOwn', 'account'), getUser);
+router.get('/list', grantAccess('readAny', 'account'), listUsers);
+router.put('/update/:username', grantAccess('updateOwn', 'account'), updateUser);
+router.get('/logout', grantAccess('readOwn', 'account'), logout);
+router.delete('/delete/:username', grantAccess('deleteOwn', 'account'), deleteUser);
 
 module.exports = router;

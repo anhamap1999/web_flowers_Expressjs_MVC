@@ -1,16 +1,16 @@
 const express = require('express');
 
-const CategoryControllers = require('../controllers/CategoryControllers');
-const {isAuth} = require('../middlewares/AuthMiddleware');
-const {grantAccess} = require('../middlewares/AccessControlMiddleware');
+const {addCategory, updateCategory, deleteCategory} = require('../controllers/category.controllers');
+const {isAuth} = require('../middlewares/auth.middleware');
+const {grantAccess} = require('../middlewares/access-control.middleware');
 
 const router = express.Router();
-router.get('/list', CategoryControllers.listCategories);
-router.get('/:id', CategoryControllers.getCategory);
+router.get('/list', listCategories);
+router.get('/:id', getCategory);
 
 router.use(isAuth);
-router.post('/add', grantAccess('createAny', 'category'), CategoryControllers.addCategory);
-router.put('/update/:id', grantAccess('updateAny', 'category'), CategoryControllers.updateCategory);
-router.delete('/delete/:id', grantAccess('deleteAny', 'category'), CategoryControllers.deleteCategory);
+router.post('/add', grantAccess('createAny', 'category'), addCategory);
+router.put('/update/:id', grantAccess('updateAny', 'category'), updateCategory);
+router.delete('/delete/:id', grantAccess('deleteAny', 'category'), deleteCategory);
 
 module.exports = router;

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { findOne } = require('./order');
 const schema = mongoose.Schema;
 
 const ItemSchema = new schema({
