@@ -45,6 +45,11 @@ const UserSchema = new schema({
         maxlength: 50,
         lowercase: true,
         match: [/[\w]+?@[\w]+?\.[a-z]{2,4}/, 'Email must have correct format!']
+    },
+    status: {
+        type: String,
+        default: 'active',
+        enum: ['active', 'disabled']
     }
 });
 

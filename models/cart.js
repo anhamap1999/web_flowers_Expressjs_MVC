@@ -30,6 +30,11 @@ const CartSchema = new schema({
     total_price: {
         type: Number,
         min: 0,
+    },
+    status: {
+        type: String,
+        default: 'active',
+        enum: ['active', 'disabled']
     }
 });
 

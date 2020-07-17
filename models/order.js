@@ -75,6 +75,11 @@ const OrderSchema = new schema({
         type: Date, 
         default: Date.now()
     },
+    status: {
+        type: String,
+        default: 'active',
+        enum: ['active', 'disabled']
+    }
 });
 
 module.exports = mongoose.model('order', OrderSchema);

@@ -45,7 +45,7 @@ const FlowerSchema = new schema({
     status: {
         type: String,
         default: 'active',
-        enum: ['active', 'pending', 'disabled']
+        enum: ['active', 'disabled']
     }
 });
 
