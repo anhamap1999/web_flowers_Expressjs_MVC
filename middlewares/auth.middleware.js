@@ -5,7 +5,7 @@ const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
 exports.isAuth = (req, res, next) => {
     //var token = req.headers["x-access-token"];
-    var token = req.header('Authorization').replace('Bearer ', '');
+    const token = req.header('Authorization').replace('Bearer ', '');
     if (token) {        
         jwtHelper.verifyToken(token, accessTokenSecret)
             .then(decoded => {

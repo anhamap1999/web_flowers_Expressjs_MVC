@@ -29,7 +29,7 @@ roles.grant('admin')
 exports.grantAccess = (action, resource) => {
     return async(req, res, next) => {
         try {
-            var permission = roles.can(req.role)[action](resource);
+            const permission = roles.can(req.role)[action](resource);
             if (permission.granted) {
                 next();
             } else {

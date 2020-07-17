@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
 
 exports.generateToken = (user, secretSignature, tokenLife) => {
     return new Promise((resolve, reject) => {
