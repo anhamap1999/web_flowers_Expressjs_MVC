@@ -26,7 +26,7 @@ exports.getCart = (req, res) => {
 };
 
 exports.addItem = (req, res) => {
-    var {flower_id, quatity, unit_price} = req.body;
+    const {flower_id, quatity, unit_price} = req.body;
     //Cart.findOne({username: req.jwtDecoded.data.username}, (err, cart) => {
     Cart.findOne({username: req.params.username}, (err, cart) => {
         if (err) {
@@ -35,7 +35,7 @@ exports.addItem = (req, res) => {
             res.status(400).json('Invalid request!');
         }
         else if (cart) {
-            var indexFound = cart.items.findIndex(item => {
+            const indexFound = cart.items.findIndex(item => {
                 return item.flower_id === flower_id;
             });
             if (indexFound !== -1 && quatity <= 0) {
@@ -63,7 +63,7 @@ exports.addItem = (req, res) => {
                 res.status(200).json({cart: result});
             });
         } else {
-            var cartData = {
+            const cartData = {
                 username: req.jwtDecoded.data.username,
                 items: {
                     flower_id: flower_id,
@@ -72,7 +72,7 @@ exports.addItem = (req, res) => {
                 },
                 total_price: quatity * unit_price
             }
-            var cart = new Cart(cartData);
+            const cart = new Cart(cartData);
             cart.save((err, result) => {
                 if (err) {
                     res.status(500).json(err);
@@ -87,7 +87,7 @@ exports.deleteItem = (req, res) => {
     //Cart.findOne({username: req.jwtDecoded.data.username})
     Cart.findOne({username: req.params.username})
         .then(cart => {
-            var indexFound = cart.items.findIndex(item => {
+            const indexFound = cart.items.findIndex(item => {
                 return item.flower_id == req.params.id;
             });
             if (indexFound > -1) {

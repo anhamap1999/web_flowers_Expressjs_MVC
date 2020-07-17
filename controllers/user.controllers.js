@@ -31,7 +31,7 @@ exports.updateUser = (req, res) => {
             res.status(500).json(err);
         }
         else if (user) {
-            var update = {
+            const update = {
                 "password": req.body.password ? bcrypt.hashSync(req.body.password, 10) : user.password,
                 "access_token": user.access_token,
                 "refresh_token": user.refresh_token,

@@ -25,7 +25,7 @@ exports.getCategory = (req, res) => {
 };
 
 exports.addCategory = (req, res) => {
-    var category = new Category(req.body);
+    const category = new Category(req.body);
     category.save((err, result) => {
         if (err) {
             res.status(500).json(err);
@@ -41,7 +41,7 @@ exports.updateCategory = (req, res) => {
             res.status(500).json(err);
         }
         else if (category) {
-            var update = {
+            const update = {
                 category_name: req.body.category_name ? req.body.category_name : category.category_name
             }
             category.updateOne(update, (err, result) => {

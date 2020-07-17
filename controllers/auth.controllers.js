@@ -20,7 +20,7 @@ exports.register = (req, res) => {
                     res.status(500).json(err);
                 }
                 try {
-                    var user = new User(req.body);
+                    let user = new User(req.body);
                     user.password = hash;
                     user.role = 'customer';
                     
@@ -30,7 +30,7 @@ exports.register = (req, res) => {
                     user.access_tokens.push({token : accessToken});
                     user.refresh_tokens.push({token : refreshToken});
                     
-                    var result = await user.save();
+                    const result = await user.save();
                     res.status(201).json({user: result});        
                 } catch(error) {
                     res.status(500).json(error);
@@ -87,12 +87,12 @@ exports.refreshToken = async(req, res) => {
     const refreshToken = req.body.refresh_token;
     if (refreshToken) {
         try {
-            var decoded = await jwtHelper.verifyToken(refreshToken, refreshTokenSecret);
+            const decoded = await jwtHelper.verifyToken(refreshToken, refreshTokenSecret);
             User.findById(decoded.data._id, async(err, user) => {
                 if (err || !user) {
                     throw err;
                 } else {
-                    var indexFound = user.refresh_tokens.findIndex(tokens => {
+                    const indexFound = user.refresh_tokens.findIndex(tokens => {
                         return tokens.token === refreshToken;
                     });
                     const accessToken = await jwtHelper.generateToken(decoded.data, accessTokenSecret, accessTokenLife);
@@ -121,7 +121,7 @@ exports.logout = async(req, res) => {
                 if (err || !user) {
                     throw err;
                 } else {
-                    var indexFound = user.access_tokens.findIndex(tokens => {
+                    const indexFound = user.access_tokens.findIndex(tokens => {
                         return tokens.token === accessToken;
                     });
                     user.access_tokens.splice(indexFound, 1);

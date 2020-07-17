@@ -46,16 +46,17 @@ exports.placeOrder = (req, res) => {
         res.status(404).json({ message: 'No order item includes!' });
     }
     else {
-        var orderData = {
+        const orderData = {
             username: req.jwtDecoded.data.username,
             bill_address: req.body.bill_address,
             shipping_method: req.body.shipping_method,
             payment_method: req.body.payment_method,
-            items: req.body.items
+            items: req.body.items,
+            total_price: orderData.items.reduce((total, item) => {
+                return total + item.unit_price * item.quatity;
+            }, 0)
         };
-        orderData.total_price = orderData.items.reduce((total, item) => {
-            return total + item.unit_price * item.quatity;
-        }, 0);
+        
 
         const order = new Order(orderData);
 
@@ -181,7 +182,7 @@ exports.placeOrder = (req, res) => {
         const session = await mongoose.startSession();
         try {
             session.startTransaction();
-            var update_flower_promise = order.items.map(item => {
+            const update_flower_promise = order.items.map(item => {
                 Flower.updateOne({ _id: item.flower_id }, { $inc: { quantity: -item.quantity } }, { session })
 
             });
@@ -189,7 +190,7 @@ exports.placeOrder = (req, res) => {
             const cart = await Cart.findOne({ username: order.username },);
             if (cart) {
                 order.items.forEach(item => {
-                    var indexFound = cart.items.findIndex(item_in_cart => {
+                    const indexFound = cart.items.findIndex(item_in_cart => {
                         return item_in_cart.flower_id === item.flower_id;
                     });
                     if (indexFound > -1) {

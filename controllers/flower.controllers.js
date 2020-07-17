@@ -38,7 +38,7 @@ exports.getFlowerByCategory = (req, res) => {
 };
 
 exports.addFlower = (req, res) => {
-    var data = {
+    const data = {
         "category_id": req.body.category_id,
         "flower_name": req.body.flower_name,
         "unit_price": req.body.unit_price,
@@ -50,7 +50,7 @@ exports.addFlower = (req, res) => {
         },
         "description": req.body.description
     }           
-    var flower = new Flower(data);    
+    const flower = new Flower(data);    
     flower.save((err, result) => {
         if (err) {
             res.status(500).json(err);
@@ -66,7 +66,7 @@ exports.updateFlower = (req, res) => {
             res.status(500).json(err);
         }        
         else if (flower) {            
-            var update = {
+            const update = {
                 "category_id": req.body.category_id ? req.body.category_id : flower.category_id,
                 "flower_name": req.body.flower_name ? req.body.flower_name : flower.flower_name,
                 "unit_price": req.body.unit_price ? req.body.unit_price : flower.unit_price,
@@ -105,8 +105,8 @@ exports.deleteFlower = (req, res) => {
 };
 
 exports.searchFlower = (req, res) => {
-    var keyword = accents.remove(req.query.keyword);
-    var regex = new RegExp(keyword, 'ig');
+    const keyword = accents.remove(req.query.keyword);
+    const regex = new RegExp(keyword, 'ig');
     //need to check
     Flower.find({$search: {$text: keyword}}, (err, flowers) => {
         if (err) {
