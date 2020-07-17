@@ -1,0 +1,43 @@
+[{
+    "username": "phuong",
+    "password": "phuong",
+    "full_name": "Khu\u1ea5t Thu\u1ef7 Phu\u01a1ng",
+    "address": "357 L\u00ea H\u1ed3ng Phong Q.5",
+    "phone_number": "0989247123",
+    "email": "ktphuong@hcmuns.edu.vn"
+}, {
+    "username": "cuong",
+    "password": "cuong",
+    "full_name": "Chung Qu\u1ed1c Cu\u1eddng",
+    "address": "1bis Nguy\u1ec5n V\u0103n Tr\u1ed5i Q.1",
+    "phone_number": "0912345678",
+    "email": "cqcuong@hcmuns.edu.vn"
+}, {
+    "username": "tung",
+    "password": "tung",
+    "full_name": "L\u01b0u H\u1ea3i T\u00f9ng",
+    "address": "1 M\u1ea1c \u0110\u1ec9nh Chi Q.1",
+    "phone_number": "0989766569",
+    "email": "lhtung@yahoo.com"
+}, {
+    "username": "thien123",
+    "password": "thien123!",
+    "full_name": "\u0110\u1ed7 L\u00e2m Thi\u00ean",
+    "address": "357 L\u00ea H\u1ed3ng Phong Q.10",
+    "phone_number": "0903123456",
+    "email": "dlthien@hcmuns.edu.vn"
+}, {
+    "username": "thanh",
+    "password": "thanh",
+    "full_name": "Nguy\u1ec5n Ng\u1ecdc Thanh",
+    "address": "357 L\u00ea H\u1ed3ng Phong Q.10",
+    "phone_number": "0903456789",
+    "email": "lthanh@hcmuns.edu.vn"
+}, {
+    "username": "vntan",
+    "password": "123",
+    "full_name": "V\u00f5 Ng\u1ecdc T\u00e2n",
+    "address": "cmt8",
+    "phone_number": "09085434333",
+    "email": "tanvn@uit.edu.vn"
+}]

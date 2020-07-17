@@ -1,0 +1,8 @@
+{
+    code: 'success',//unauth,
+    data: {}//[],
+    message: '',//
+    errors: [],//[{key: 'username',value:'invalid',message: 'Username must be at least 4 characters'}],
+    totalPage: 12,//optional
+
+}

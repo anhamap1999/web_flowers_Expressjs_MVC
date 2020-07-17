@@ -1,0 +1,170 @@
+[{
+    "category_id": "1",
+    "flower_name": "\u0110\u00f3n xu\u00e2n",
+    "unit_price": "50000",
+    "quatity": 20,
+    "image": "cuc_9.jpg",
+    "description": "Hoa c\u00fac c\u00e1c m\u00e0u: tr\u1eafng, v\u00e0ng, cam"
+}, {
+    "category_id": "1",
+    "flower_name": "H\u1ed3n nhi\u00ean",
+    "unit_price": "60000",
+    "quatity": 20,
+    "image": "cuc_2.jpg",
+    "description": "Hoa c\u00fac v\u00e0ng, cam. l\u00e1 m\u0103ng"
+}, {
+    "category_id": "1",
+    "flower_name": "T\u00edm thu\u1ef7 chung",
+    "unit_price": "45000",
+    "quatity": 20,
+    "image": "cuc_3.jpg",
+    "description": "Hoa c\u00fac t\u00edm"
+}, {
+    "category_id": "1",
+    "flower_name": "N\u00e9t duy\u00ean t\u00edm hoa c\u00e0",
+    "unit_price": "40000",
+    "quatity": 20,
+    "image": "cuc_4.jpg",
+    "description": "Hoa c\u00fac m\u00e0u t\u00edm nh\u1ea1t"
+}, {
+    "category_id": "1",
+    "flower_name": "C\u00f9ng khoe s\u1eafc",
+    "unit_price": "70000",
+    "quatity": 20,
+    "image": "cuc_5.jpg",
+    "description": "Hoa c\u00fac c\u00e1c m\u00e0u: tr\u1eafng, v\u00e0ng, cam"
+}, {
+    "category_id": "1",
+    "flower_name": "Tr\u1eafng th\u01a1 ng\u00e2y",
+    "unit_price": "65000",
+    "quatity": 20,
+    "image": "cuc_6.jpg",
+    "description": "Hoa c\u00fac tr\u1eafng"
+}, {
+    "category_id": "2",
+    "flower_name": "D\u00e2y t\u01a1 h\u1ed3ng",
+    "unit_price": "250000",
+    "quatity": 20,
+    "image": "cuoi_1.jpg",
+    "description": "Hoa h\u1ed3ng m\u00e0u h\u1ed3ng \u0111\u1eadm, hoa h\u1ed3ng xanh, c\u00e1c lo\u1ea1i l\u00e1 m\u0103ng"
+}, {
+    "category_id": "2",
+    "flower_name": "C\u1ea7u thu\u1ef7 tinh",
+    "unit_price": "220000",
+    "image": "cuoi_2.jpg",
+    "description": "Hoa h\u1ed3ng v\u00e0 hoa thu\u1ef7 ti\u00ean tr\u1eafng"
+}, {
+    "category_id": "2",
+    "flower_name": "Duy\u00ean th\u1ea7m",
+    "unit_price": "260000",
+    "image": "cuoi_3.jpg",
+    "description": "Hoa c\u00fac tr\u1eafng, baby, l\u00e1 m\u0103ng"
+}, {
+    "category_id": "2",
+    "flower_name": "\u00d0\u00e2m ch\u1ed3i n\u1ea3y l\u1ed9c",
+    "unit_price": "180000",
+    "image": "cuoi_4.jpg",
+    "description": "Hoa h\u1ed3ng tr\u1eafng v\u00e0 c\u00e1c lo\u1ea1i l\u00e1 m\u0103ng"
+}, {
+    "category_id": "2",
+    "flower_name": "Ho\u00e0 quy\u1ec7n",
+    "unit_price": "270000",
+    "image": "cuoi_5.jpg",
+    "description": "Hoa h\u1ed3ng tr\u1eafng, l\u00e1 thu\u1ef7 t\u00f9ng"
+}, {
+    "category_id": "2",
+    "flower_name": "N\u1ed3ng n\u00e0n",
+    "unit_price": "210000",
+    "image": "cuoi_6.jpg",
+    "description": "Hoa h\u1ed3ng \u0111\u1ecf, l\u00e1 thu\u1ef7 t\u00f9ng, l\u00e1 m\u0103ng"
+}, {
+    "category_id": "3",
+    "flower_name": "Together",
+    "unit_price": "120000",
+    "image": "hong_1.jpg",
+    "description": "H\u1ed3ng x\u00e1c ph\u00e1o, c\u00fac t\u00edm"
+}, {
+    "category_id": "3",
+    "flower_name": "Long trip",
+    "unit_price": "85000",
+    "image": "hong_2.jpg",
+    "description": "Hoa h\u1ed3ng \u0111\u1ecf, l\u00e1 kim thu\u1ef7 t\u00f9ng"
+}, {
+    "category_id": "3",
+    "flower_name": "Beautiful life",
+    "unit_price": "100000",
+    "image": "hong_3.jpg",
+    "description": "Hoa h\u1ed3ng \u0111\u1ecf, l\u00e1 m\u0103ng, l\u00e1 \u0111\u1ec7m"
+}, {
+    "category_id": "3",
+    "flower_name": "Morning Sun",
+    "unit_price": "75000",
+    "image": "hong_4.jpg",
+    "description": "Hoa h\u1ed3ng v\u00e0ng"
+}, {
+    "category_id": "3",
+    "flower_name": "Pretty Bloom",
+    "unit_price": "65000",
+    "image": "hong_5.jpg",
+    "description": "Hoa h\u1ed3ng tr\u1eafng v\u00e0 l\u00e1 th\u00f4ng"
+}, {
+    "category_id": "3",
+    "flower_name": "Red Rose",
+    "unit_price": "45000",
+    "image": "hong_7.jpg",
+    "description": "Hoa h\u1ed3ng \u0111\u1ecf v\u00e0 l\u00e1 m\u0103ng"
+}, {
+    "category_id": "4",
+    "flower_name": "V\u1ea5n vu\u01a1ng",
+    "unit_price": "150000",
+    "image": "xuan_1.jpg",
+    "description": "Hoa h\u1ed3ng \u0111\u1ecf, h\u1ed3ng \u0111\u1eadm, c\u00fac \u0111\u1ecf, c\u00e1c lo\u1ea1i l\u00e1"
+}, {
+    "category_id": "4",
+    "flower_name": "N\u1eafng nh\u1eb9 nh\u00e0ng",
+    "unit_price": "50000",
+    "image": "xuan_2.jpg",
+    "description": "Hoa c\u00fac xanh, hoa lys v\u00e0ng, l\u00e1 \u0111\u1ec7m"
+}, {
+    "category_id": "4",
+    "flower_name": "Thanh tao",
+    "unit_price": "120000",
+    "image": "xuan_3.jpg",
+    "description": "Hoa th\u1ee7y ti\u00ean, c\u00faa tr\u1eafng, c\u00fac d\u1ea1i t\u00edm, c\u00e1c lo\u1ea1i l\u00e1 \u0111\u1ec7m"
+}, {
+    "category_id": "4",
+    "flower_name": "Tinh khi\u1ebft",
+    "unit_price": "110000",
+    "image": "xuan_4.jpg",
+    "description": "H\u1ed3ng tr\u1eafng v\u00e0 salem"
+}, {
+    "category_id": "4",
+    "flower_name": "M\u00f9a xu\u00e2n ch\u00edn",
+    "unit_price": "150000",
+    "image": "xuan_5.jpg",
+    "description": "H\u1ed3mg cam, c\u00fac xanh, thu\u1ef7 ti\u00ean v\u00e0 c\u00e1c lo\u1ea1i l\u00e1"
+}, {
+    "category_id": "4",
+    "flower_name": "R\u1ef1c r\u1edf n\u1eafng v\u00e0ng",
+    "unit_price": "75000",
+    "image": "xuan_6.jpg",
+    "description": "H\u1ed3ng v\u00e0ng v\u00e0 c\u00fac v\u00e0ng"
+}, {
+    "category_id": "3",
+    "flower_name": "Love Candy",
+    "unit_price": "95000",
+    "image": "hong_13.jpg",
+    "description": "Hoa h\u1ed3ng tr\u1eafng tinh kh\u00f4i xen v\u1edbi hoa h\u1ed3ng m\u00e0u h\u1ed3ng nh\u1ea1t, \u0111i\u1ec3m th\u00eam baby tr\u1eafng v\u00e0 l\u00e1 m\u0103ng"
+}, {
+    "category_id": "2",
+    "flower_name": "Happy Wedding",
+    "unit_price": "210000",
+    "image": "cuoi_9.jpg",
+    "description": "Hoa h\u1ed3ng m\u00f4n v\u00e0 c\u00e1c lo\u1ea1i l\u00e1"
+}, {
+    "category_id": "1",
+    "flower_name": "C\u00fac nhi\u1ec7t \u0111\u1edbi",
+    "unit_price": "150000",
+    "image": "cuc_15.jpg",
+    "description": "C\u00fac v\u00e0ng - h\u1ed3ng cam - l\u00e1 m\u0103ng"
+}
