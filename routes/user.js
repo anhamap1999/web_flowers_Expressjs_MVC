@@ -15,7 +15,7 @@ router.use(isAuth);
 router.get('/:username', grantAccess('readOwn', 'account'), getUser);
 router.get('/list', grantAccess('readAny', 'account'), listUsers);
 router.put('/update/:username', grantAccess('updateOwn', 'account'), updateUser);
-router.get('/logout', grantAccess('readOwn', 'account'), logout);
+router.put('/logout', grantAccess('updateOwn', 'account'), logout);
 router.delete('/delete/:username', grantAccess('deleteOwn', 'account'), deleteUser);
 
 module.exports = router;
