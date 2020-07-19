@@ -16,4 +16,15 @@ exports.getUserByAdmin = async (req, res) => {
     } catch (error) {
         res.status(500).json(error);
     }
-}
+};
+
+exports.deleteUserByAdmin = async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.params.username, status: 'active' });
+        user.status = 'disabled';
+        const result = await user.save();
+        res.status(200).json({ user: result });
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
