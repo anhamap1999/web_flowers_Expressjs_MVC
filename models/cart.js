@@ -26,11 +26,8 @@ const CartSchema = new schema({
         required: true,
         match: /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/
     },
-    items: [ItemSchema],
-    total_price: {
-        type: Number,
-        min: 0,
-    },
+    item: ItemSchema,
+    
     status: {
         type: String,
         default: 'active',
