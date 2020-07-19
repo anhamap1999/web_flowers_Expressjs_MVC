@@ -1,10 +1,11 @@
 const express = require('express');
 
-const {getUser, listUsers, updateUser, deleteUser} = require('../controllers/user.controllers');
-const {register, login, refreshToken, logout} = require('../controllers/auth.controllers');
-const {UserValidator} = require('../validators/user.validator');
-const {isAuth} = require('../middlewares/auth.middleware');
-const {grantAccess} = require('../middlewares/access-control.middleware');
+const { getUser, updateUser, deleteUser } = require('../controllers/user.controllers');
+const { listUsers, getUserByAdmin } = require('../controllers/admin.user.controllers');
+const { register, login, refreshToken, logout } = require('../controllers/auth.controllers');
+const { UserValidator } = require('../validators/user.validator');
+const { isAuth } = require('../middlewares/auth.middleware');
+const { grantAccess } = require('../middlewares/access-control.middleware');
 
 const router = express.Router();
 router.post('/register', UserValidator, register);
@@ -12,10 +13,12 @@ router.post('/login', UserValidator, login);
 router.post('/refresh-token', refreshToken);
 
 router.use(isAuth);
-router.get('/:username', grantAccess('readOwn', 'account'), getUser);
+router.get('/', grantAccess('readOwn', 'account'), getUser);
 router.get('/list', grantAccess('readAny', 'account'), listUsers);
-router.put('/update/:username', grantAccess('updateOwn', 'account'), updateUser);
+router.get('/:username', grantAccess('readAny', 'account'), getUserByAdmin);
+//lack of validator for update
+router.put('/update', grantAccess('updateOwn', 'account'), updateUser);
 router.put('/logout', grantAccess('updateOwn', 'account'), logout);
-router.delete('/delete/:username', grantAccess('deleteOwn', 'account'), deleteUser);
+router.delete('/delete', grantAccess('deleteOwn', 'account'), deleteUser);
 
 module.exports = router;
