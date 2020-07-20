@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Cart = require('../models/cart');
 const perPage = 20;
 
 exports.listUsers = async (req, res) => {
@@ -23,9 +24,14 @@ exports.getUserByAdmin = async (req, res) => {
 exports.deleteUserByAdmin = async (req, res) => {
     try {
         const user = await User.findOne({ username: req.params.username, status: 'active' });
+        const cart = await Cart.findOne({ username: req.params.username, status: 'active' });
+        if (cart) {
+            cart.status = 'disabled';
+            await cart.save();
+        }
         user.status = 'disabled';
-        const result = await user.save();
-        res.status(200).json({ user: result });
+        await user.save();
+        res.status(200).json({ message: 'Delete successfully!' });
     } catch (error) {
         res.status(500).json(error);
     }
