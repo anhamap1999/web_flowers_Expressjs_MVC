@@ -4,7 +4,6 @@ const schema = mongoose.Schema;
 const FlowerSchema = new schema({
     category_id: {
         type: String,
-        maxlength: 50,
         required: true
     },
     flower_name: {

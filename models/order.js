@@ -4,7 +4,6 @@ const schema = mongoose.Schema;
 const ItemSchema = new schema({
     flower_id: {
         type: String,
-        maxlength: 50,
         required: true
     },
     flower_name: {
