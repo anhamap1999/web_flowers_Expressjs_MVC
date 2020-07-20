@@ -22,8 +22,8 @@ exports.getCart = async (req, res) => {
 exports.addItem = async (req, res) => {
     if (req.body.quantity > 0) {
         try {
-            const carts = await Cart.find({ username: req.user.username, status: 'active' });
-            if (carts) {
+            let carts = await Cart.find({ username: req.user.username, status: 'active' });
+            if (carts.length > 0) {
                 const indexFound = carts.findIndex(cart => {
                     return cart.item.flower_id === req.body.flower_id;
                 });
@@ -31,8 +31,6 @@ exports.addItem = async (req, res) => {
                     carts[indexFound].item.quantity += req.body.quantity;
                     const result = await carts[indexFound].save();
                     res.status(201).json(result);
-                } else {
-                    throw error = { message: 'Invalid request!' };
                 }
             }
             const data = {
@@ -52,8 +50,8 @@ exports.addItem = async (req, res) => {
 
 exports.deleteItem = async (req, res) => {
     try {
-        const carts = await Cart.find({ username: req.user.username, status: 'active' });
-        if (carts) {
+        let carts = await Cart.find({ username: req.user.username, status: 'active' });
+        if (carts.length > 0) {
             const indexFound = carts.findIndex(cart => {
                 return cart.item.flower_id === req.params.id;
             });
