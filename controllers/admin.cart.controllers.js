@@ -3,6 +3,9 @@ const Cart = require('../models/cart');
 exports.listCarts = async (req, res) => {
     try {
         const carts = await Cart.find({ status: 'active' });
+        if (carts.length <= 0) {
+            res.status(404).json({ message: 'Cart not found!' });
+        }
         const users = carts.map(cart => {
             return cart.username;
         });
@@ -16,15 +19,26 @@ exports.listCarts = async (req, res) => {
                 return cart.username === user;
             });
             let data = {
-                username: user,
-                total_price: 0,
+                username: user,                
+                //Solution 1:
+                /*
+                total_price: cartsByUser.reduce((total, cart) => {
+                    return total + cart.item.unit_price * cart.item.quantity;
+                }, 0),
                 items: cartsByUser.map(cart => {
                     return cart.item;
                 })
-            }
-            data.items.forEach(item => {
-                data.total_price += item.quantity * item.unit_price;
-            });
+                */
+
+                //Solution 2:
+                /**/
+                total_price: cartsByUser.reduce((total, cart) => {
+                    return total + cart.unit_price * cart.quantity;
+                }, 0),
+                items: cartsByUser.map(cart=>{
+                    return {flower_id: cart.flower_id, unit_price: cart.unit_price, quantity: cart.quantity};
+                })
+            }            
             result.push(data);
         });
         res.status(200).json(result);
