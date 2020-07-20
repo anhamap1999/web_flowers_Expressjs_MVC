@@ -1,10 +1,15 @@
 const Flower = require('../models/flower');
-const accents = require('remove-accents');
+const perPage = 20;
 
 exports.listFlowers = async (req, res) => {
     try {
-        const flowers = await Flower.find({ status: 'active' });
-        res.status(200).json({ flowers: flowers });
+        const page = req.query.page ? req.query.page - 1 : 0;
+        const flowers = await Flower.find({ status: 'active' }).limit(perPage).skip(perPage * page);
+        if (flowers.length > 0) {
+            res.status(200).json({ flowers: flowers });
+        } else {
+            throw error;
+        }
     } catch (error) {
         res.status(404).json({ message: 'Flower not found!' });
     }
@@ -21,17 +26,27 @@ exports.getFlower = async (req, res) => {
 
 exports.getFlowerByCategory = async (req, res) => {
     try {
-        const flowers = await Flower.find({ category_id: req.query.category_id, status: 'active' });
-        res.status(200).json({ flowers: flowers });
+        const page = req.query.page ? req.query.page - 1 : 0;
+        const flowers = await Flower.find({ category_id: req.query.category_id, status: 'active' }).limit(perPage).skip(perPage * page);
+        if (flowers.length > 0) {
+            res.status(200).json({ flowers: flowers });
+        } else {
+            throw error;
+        }
     } catch (error) {
         res.status(404).json({ message: 'Flower not found!' });
     }
 };
 
 exports.searchFlower = async (req, res) => {
-    try {        
-        const flowers = await Flower.find({ $text: { $search: req.query.keyword }, status: 'active' });
-        res.status(200).json({ flowers: flowers });
+    try {
+        const page = req.query.page ? req.query.page - 1 : 0;
+        const flowers = await Flower.find({ $text: { $search: req.query.keyword }, status: 'active' }).limit(perPage).skip(perPage * page);
+        if (flowers.length > 0) {
+            res.status(200).json({ flowers: flowers });
+        } else {
+            throw error;
+        }
     } catch (error) {
         res.status(404).json({ message: 'Flower not found!' });
     }

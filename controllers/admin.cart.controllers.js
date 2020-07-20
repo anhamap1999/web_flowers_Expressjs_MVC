@@ -1,8 +1,10 @@
 const Cart = require('../models/cart');
+const perPage = 20;
 
 exports.listCarts = async (req, res) => {
     try {
-        const carts = await Cart.find({ status: 'active' });
+        const page = req.query.page ? req.query.page - 1 : 0;
+        const carts = await Cart.find({ status: 'active' }).limit(perPage).skip(perPage * page);
         if (carts.length <= 0) {
             res.status(404).json({ message: 'Cart not found!' });
         }

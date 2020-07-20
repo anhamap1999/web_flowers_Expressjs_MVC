@@ -1,8 +1,10 @@
 const User = require('../models/user');
+const perPage = 20;
 
 exports.listUsers = async (req, res) => {
     try {
-        const users = await User.find({ status: 'active' });
+        const page = req.query.page ? req.query.page - 1 : 0;
+        const users = await User.find({ status: 'active' }).limit(perPage).skip(perPage * page);
         res.status(200).json({ users: users });
     } catch (error) {
         res.status(500).json(error);
