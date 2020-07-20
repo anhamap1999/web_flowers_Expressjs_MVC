@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { getUser, updateUser, deleteUser } = require('../controllers/user.controllers');
+const { getUser, updateUser, deleteUser, updatePassword } = require('../controllers/user.controllers');
 const { listUsers, getUserByAdmin, deleteUserByAdmin } = require('../controllers/admin.user.controllers');
 const { register, login, refreshToken, logout } = require('../controllers/auth.controllers');
 const { isAuth } = require('../middlewares/auth.middleware');
@@ -19,6 +19,7 @@ router.get('/:username', grantAccess('readAny', 'account'), getUserByAdmin);
 router.delete('/delete/:username', grantAccess('deleteAny', 'account'), deleteUserByAdmin);
 //lack of validator for update
 router.put('/update', grantAccess('updateOwn', 'account'), updateUserValidator, updateUser);
+router.patch('/update-password', grantAccess('updateOwn', 'account'), updatePassword);
 router.patch('/logout', grantAccess('updateOwn', 'account'), logout);
 router.delete('/delete', grantAccess('deleteOwn', 'account'), deleteUser);
 

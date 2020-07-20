@@ -16,6 +16,26 @@ exports.updateUser = async (req, res) => {
     }
 };
 
+exports.updatePassword = async (req, res) => {
+    try {
+        const user = req.user;
+        const isAuth = await bcrypt.compare(req.body.password, user.password);
+        if (!isAuth) {
+            throw error = { message: "Password is incorrect!" };
+        }
+        const hash = await bcrypt.hash(req.body.new_password, 10);
+        const result = await bcrypt.compare(req.body.confirm_new_password, hash);
+        if (!result) {
+            throw error = { message: "Passwords do not match!" };
+        }
+        user.password = hash;
+        await user.save();
+        res.status(200).json({ message: "Update password successfully!" });
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
+
 exports.deleteUser = async (req, res) => {
     try {
         const user = req.user;
