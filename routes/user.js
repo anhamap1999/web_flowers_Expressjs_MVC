@@ -9,8 +9,8 @@ const { grantAccess } = require('../middlewares/access-control.middleware');
 
 const router = express.Router();
 router.post('/register', UserValidator, register);
-router.post('/login', UserValidator, login);
-router.post('/refresh-token', refreshToken);
+router.patch('/login', UserValidator, login);
+router.patch('/refresh-token', refreshToken);
 
 router.use(isAuth);
 router.get('/', grantAccess('readOwn', 'account'), getUser);
@@ -19,7 +19,7 @@ router.get('/:username', grantAccess('readAny', 'account'), getUserByAdmin);
 router.delete('/delete/:username', grantAccess('deleteAny', 'account'), deleteUserByAdmin);
 //lack of validator for update
 router.put('/update', grantAccess('updateOwn', 'account'), updateUser);
-router.put('/logout', grantAccess('updateOwn', 'account'), logout);
+router.patch('/logout', grantAccess('updateOwn', 'account'), logout);
 router.delete('/delete', grantAccess('deleteOwn', 'account'), deleteUser);
 
 module.exports = router;
