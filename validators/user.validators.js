@@ -51,3 +51,16 @@ exports.updateUserValidator = (req, res, next) => {
         next();
     });
 };
+
+exports.forgotPasswordValidator = (req,res,next)=>{
+    const schema = Joi.object().keys({
+        email: Joi.string().email().max(50).lowercase().required()
+    });
+    Joi.validate(req.body, schema, (err, result) => {
+        if (err) {
+            res.status(400).json(err);
+        }
+        req.body = result;
+        next();
+    });
+};

@@ -1,6 +1,7 @@
 const jwtHelper = require('../helpers/jwt.helper');
 const dotenv = require('dotenv').config();
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 
 const User = require('../models/user');
 
@@ -8,6 +9,8 @@ const accessTokenLife = process.env.ACCESS_TOKEN_LIFE;
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 const refreshTokenLife = process.env.REFRESH_TOKEN_LIFE;
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
+const resetPasswordTokenSecret = process.env.RESET_PASSWORD_TOKEN_SECRET;
+const resetPasswordTokenLife = process.env.RESET_PASSWORD_TOKEN_LIFE;
 
 //const Error = require('../middlewares/error.middleware');
 
@@ -98,7 +101,7 @@ exports.logout = async (req, res) => {
         const indexFound = user.access_tokens.findIndex(tokens => {
             return tokens.token === accessToken;
         });
-        
+
         user.access_tokens.splice(indexFound, 1);
         user.refresh_tokens.splice(indexFound, 1);
 
@@ -109,6 +112,74 @@ exports.logout = async (req, res) => {
     }
 };
 
-exports.resetPassword = async (req, res) => {
+exports.forgotPassword = async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.body.email, status: 'active' });
+        if (!user) {
+            throw error = { message: "User not found!" };
+        }
+        const resetPasswordToken = await jwtHelper.generateToken(user, resetPasswordTokenSecret, resetPasswordTokenLife);
+        //res.json(`http://localhost:27017/${resetPasswordToken}`);
+        /*
+        const transporter = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+                user: "",
+                pass: ""
+            }
+        });
+        const mailOptions = {
+            to: user.email,
+            from: "",
+            subject: "Reset password",
+            text: "http://"
+        };
+        const result = transporter.sendMail(mailOptions);
+        if (result) {
+            res.status(200).json(result);
+        }
+        */
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
 
+exports.resetPassword = async (req, res) => {
+    try {
+        const resetPasswordToken = req.params.token;
+        const decoded = await jwtHelper.verifyToken(resetPasswordToken, resetPasswordTokenSecret);
+        if (!decoded) {
+            throw error = { message: "Token expires!" };
+        }
+        let user = await User.findOne({ _id: decoded.data._id, status: 'active' });
+        const hash = await bcrypt.hash(req.body.new_password, 10);
+        const result = await bcrypt.compare(req.body.confirm_new_password, hash);
+        if (!result) {
+            throw error = { message: "Passwords do not match!" };
+        }
+        user.password = hash;
+        await user.save();
+        res.status(200).json({ message: "Reset password successfully!" });
+        /*
+        const transporter = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+                user: "",
+                pass: ""
+            }
+        });
+        const mailOptions = {
+            to: user.email,
+            from: "",
+            subject: "Reset password",
+            text: "http://"
+        };
+        const result = transporter.sendMail(mailOptions);
+        if (result) {
+            res.status(200).json({ message: "Reset password successfully!" });
+        }
+        */
+    } catch (error) {
+        res.status(500).json(error);
+    }
 };
