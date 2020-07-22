@@ -25,14 +25,11 @@ const FlowerSchema = new schema({
         required: true
     },
     image: {
-        image_name: {
-            type: String,
-            required: true
+        data: {
+            type: Buffer,
         },
-        image_path: {
+        contentType: {
             type: String,
-            required: true,
-            default: './uploads'
         }
     },
     description: {

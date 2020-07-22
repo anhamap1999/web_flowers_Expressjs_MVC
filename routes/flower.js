@@ -13,8 +13,8 @@ router.get('/:id', getFlower);
 router.get('/', getFlowerByCategory);
 
 router.use(isAuth);
-router.post('/add', grantAccess('createAny', 'flower'), flowerValidator, addFlower);
-router.put('/update/:id', grantAccess('updateAny', 'flower'), flowerValidator, updateFlower);
+router.post('/add', grantAccess('createAny', 'flower'), flowerValidator, uploadImage, addFlower);
+router.put('/update/:id', grantAccess('updateAny', 'flower'), flowerValidator, uploadImage, updateFlower);
 router.delete('/delete/:id', grantAccess('deleteAny', 'flower'), deleteFlower);
 
 module.exports = router;

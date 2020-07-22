@@ -7,9 +7,6 @@ exports.flowerValidator = (req, res, next) => {
         flower_name: Joi.string().max(50).required(),
         unit_price: Joi.number().min(0).required(),
         quantity: Joi.number().min(1).required(),
-        image: {
-            image_name: Joi.string().required()
-        },
         description: Joi.string().max(1000),
     });
 

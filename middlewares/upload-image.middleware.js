@@ -1,18 +1,26 @@
 const multer = require('multer');
+const fs = require('fs');
+
+const diskStorage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, './uploads/');
+    },
+    filename: (req, file, callback) => {
+        const type = ['image/png', 'image/jpeg'];
+        if (type.indexOf(file.mimetype) < 0) {
+            callback({ message: "Image must be png or jpeg" });
+        }
+        callback(null, file.fieldname + "-" + Date.now());
+    }
+});
+
+const upload = multer({ storage: diskStorage }).single('image');
 
 exports.uploadImage = (req, res, next) => {
-    const file = req.files.image;
-    res.json(req.files);
-    /*
-    if (file && (file.mimetype === "image/png" || file.mimetype === "image/jpeg")) {
-        const diskStorage = multer.diskStorage({
-            destination: './uploads',
-            filename: `${Date.now()}`+`${file.name}`
-        });
-        multer({storage: diskStorage}).single('file');
+    upload(req, res, (error) => {
+        if (error) {
+            res.status(500).json(error);
+        }
         next();
-    }
-    else {
-        res.status(400).json({message: 'Image must have correct format!'});
-    }*/
+    });
 };
