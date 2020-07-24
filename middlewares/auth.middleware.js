@@ -1,6 +1,7 @@
 const jwtHelper = require('../helpers/jwt.helper');
 const User = require('../models/user');
 const dotenv = require('dotenv').config();
+const { BadRequest, NotFound, Unauthorized, Forbidden } = require('../utils/error');
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
 exports.isAuth = async (req, res, next) => {
@@ -14,9 +15,11 @@ exports.isAuth = async (req, res, next) => {
             req.user = user;
             next();
         } catch (error) {
-            res.status(401).json({ message: "Unauthorized!" });
+            error = new Unauthorized('Unauthorized!');
+            next(error);
         }
     } else {
-        res.status(400).json({ message: "No token provided!" });
+        const error = new BadRequest('No token provided!', 'refresh_token', 'invalid', 'No token provided!');
+        next(error);
     }
 }

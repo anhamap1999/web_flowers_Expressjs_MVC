@@ -1,5 +1,7 @@
 const accessControl = require('accesscontrol');
+const { GeneralError, BadRequest, NotFound, Unauthorized, Forbidden } = require('../utils/error');
 const roles = new accessControl();
+
 roles.grant('customer')
     .readOwn('account')
     .updateOwn('account')
@@ -33,10 +35,10 @@ exports.grantAccess = (action, resource) => {
             if (permission.granted) {
                 next();
             } else {
-                throw error;
+                throw new Forbidden('No permission!');
             }
         } catch (error) {
-            res.status(403).json({ message: 'No permission!' });
+            next(error);
         }
     };
 };

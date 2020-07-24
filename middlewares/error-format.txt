@@ -1,8 +1,16 @@
 {
-    code: 'success',//unauth,
-    data: {}//[],
-    message: '',//
-    errors: [],//[{key: 'username',value:'invalid',message: 'Username must be at least 4 characters'}],
-    totalPage: 12,//optional
+    "code": 'success',//unauth,
+    "data": {},//[],
+    "message": '',//
+    "errors": [],//[{key: 'username',value:'invalid',message: 'Username must be at least 4 characters'}],
+    "totalPage": 12,//optional
+}
 
+{
+    "message": '',
+    "errors": [{
+        key: 'password',
+        value:'invalid',
+        message: 'Password is incorrect'
+    }],
 }
