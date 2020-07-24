@@ -18,11 +18,15 @@ class GeneralError extends Error {
         if (this instanceof Unauthorized) {
             return 401;
         }
+        if (this instanceof Forbidden) {
+            return 403;
+        }
     }
 }
 
 class BadRequest extends GeneralError { }
 class NotFound extends GeneralError { }
 class Unauthorized extends GeneralError { }
+class Forbidden extends GeneralError { }
 
-module.exports = { GeneralError, BadRequest, NotFound, Unauthorized };
+module.exports = { GeneralError, BadRequest, NotFound, Unauthorized, Forbidden };
