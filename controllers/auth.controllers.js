@@ -12,13 +12,14 @@ const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
 const resetPasswordTokenSecret = process.env.RESET_PASSWORD_TOKEN_SECRET;
 const resetPasswordTokenLife = process.env.RESET_PASSWORD_TOKEN_LIFE;
 
-//const Error = require('../middlewares/error.middleware');
+const Result = require('../utils/result');
+const { BadRequest, NotFound, Unauthorized, Forbidden } = require('../utils/error');
 
-exports.register = async (req, res) => {
+exports.register = async (req, res, next) => {
     try {
         const existed_user = await User.findOne({ username: req.body.username });
         if (existed_user) {
-            throw error = { message: "Username has been registered!" };
+            throw new BadRequest('Username has been registered', 'username', '', '');
         }
 
         let user = new User(req.body);
@@ -33,67 +34,77 @@ exports.register = async (req, res) => {
         user.access_tokens.push({ token: accessToken });
         user.refresh_tokens.push({ token: refreshToken });
 
-        const result = await user.save();
-        res.status(201).json({ user: result });
+        const savedUser = await user.save();
+
+        const result = new Result('Register successfully', savedUser);
+        res.status(201).send(result);
     } catch (error) {
-        res.status(400).json(error);
+        next(error);
     }
 };
 
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
     try {
         const user = await User.findOne({ username: req.body.username, status: 'active' });
         if (!user) {
-            throw error = { message: "Username has been registered!" };
+            throw new BadRequest('Username has not been registered', 'username', '', '');
         }
-        const result = await bcrypt.compare(req.body.password, user.password);
-        if (!result) {
-            throw error = { message: "Password is incorrect!" };
-            //throw error = new Error()
+        const compare_result = await bcrypt.compare(req.body.password, user.password);
+        if (!compare_result) {
+            throw new BadRequest('Password is incorrect', 'password', 'incorrect', '');
         }
+
         const [accessToken, refreshToken] = await Promise.all([
             jwtHelper.generateToken(user, accessTokenSecret, accessTokenLife),
             jwtHelper.generateToken(user, refreshTokenSecret, refreshTokenLife)
         ]);
+
         user.access_tokens.push({ token: accessToken });
         user.refresh_tokens.push({ token: refreshToken });
+        await user.save();
 
-        const savedUser = await user.save();
-        res.status(200).json({
+        const data = {
             accessToken: accessToken,
             refreshToken: refreshToken
-        });
+        }
+        const result = new Result('Login successfully', data);
+        res.status(200).send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-exports.refreshToken = async (req, res) => {
+exports.refreshToken = async (req, res, next) => {
     const refreshToken = req.body.refresh_token;
     if (refreshToken) {
         try {
             const decoded = await jwtHelper.verifyToken(refreshToken, refreshTokenSecret);
-            const user = await User.findOne({ _id: decoded.data._id, status: 'active' });
-            if (!user) {
-                throw error = { message: "Invalid refresh token!" };
+            if (!decoded) {
+                throw new BadRequest('Invalid refresh token', 'refresh_token', 'invalid', 'Invalid refresh_token');
             }
+
+            const user = await User.findOne({ _id: decoded.data._id, status: 'active' });
+
             const indexFound = user.refresh_tokens.findIndex(tokens => {
                 return tokens.token === refreshToken;
             });
             const accessToken = await jwtHelper.generateToken(decoded.data, accessTokenSecret, accessTokenLife);
 
             user.access_tokens[indexFound].token = accessToken;
-            const result = await user.save();
-            res.status(200).json({ access_token: accessToken });
+            await user.save();
+
+            const result = new Result('Refresh token successfully', { accessToken: accessToken });
+            res.status(200).send(result);
         } catch (error) {
-            res.status(400).json(error);
+            next(error);
         }
     } else {
-        res.status(400).json({ message: "No token provided!" });
+        const error = new BadRequest('No token provided', 'refresh_token', 'invalid', 'Invalid refresh_token');
+        next(error);
     }
 };
 
-exports.logout = async (req, res) => {
+exports.logout = async (req, res, next) => {
     try {
         const accessToken = req.header('Authorization').replace('Bearer ', '');
         const user = req.user;
@@ -105,21 +116,24 @@ exports.logout = async (req, res) => {
         user.access_tokens.splice(indexFound, 1);
         user.refresh_tokens.splice(indexFound, 1);
 
-        const result = await user.save();
-        res.status(200).json({ message: "Logout successfully!" });
+        await user.save();
+
+        const result = new Result('Logout successfully');
+        res.status(200).send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-exports.forgotPassword = async (req, res) => {
+exports.forgotPassword = async (req, res, next) => {
     try {
         const user = await User.findOne({ email: req.body.email, status: 'active' });
         if (!user) {
-            throw error = { message: "User not found!" };
+            throw new BadRequest('User not found', 'email', 'invalid', 'Email not found');
         }
         const resetPasswordToken = await jwtHelper.generateToken(user, resetPasswordTokenSecret, resetPasswordTokenLife);
-        //res.json(`http://localhost:27017/${resetPasswordToken}`);
+
+        //res.json(`http://localhost:27017/user/reset-password/${resetPasswordToken}`);
         /*
         const transporter = nodemailer.createTransport({
             service: "Gmail",
@@ -134,32 +148,31 @@ exports.forgotPassword = async (req, res) => {
             subject: "Reset password",
             text: "http://"
         };
-        const result = transporter.sendMail(mailOptions);
-        if (result) {
-            res.status(200).json(result);
-        }
-        */
+        transporter.sendMail(mailOptions);*/
+
+        const result = new Result('Send mail successfully');
+        res.status(200).send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-exports.resetPassword = async (req, res) => {
+exports.resetPassword = async (req, res, next) => {
     try {
         const resetPasswordToken = req.params.token;
         const decoded = await jwtHelper.verifyToken(resetPasswordToken, resetPasswordTokenSecret);
         if (!decoded) {
-            throw error = { message: "Token expires!" };
+            throw new BadRequest('Token expires', 'resetPasswordToken', 'invalid', 'Invalid resetPasswordToken');
         }
         let user = await User.findOne({ _id: decoded.data._id, status: 'active' });
         const hash = await bcrypt.hash(req.body.new_password, 10);
-        const result = await bcrypt.compare(req.body.confirm_new_password, hash);
-        if (!result) {
-            throw error = { message: "Passwords do not match!" };
+        const compare_result = await bcrypt.compare(req.body.confirm_new_password, hash);
+        if (!compare_result) {
+            throw new BadRequest('Passwords do not match', 'new_password, confirm_new_password', 'invalid', 'Passwords do not match');
         }
         user.password = hash;
         await user.save();
-        res.status(200).json({ message: "Reset password successfully!" });
+
         /*
         const transporter = nodemailer.createTransport({
             service: "Gmail",
@@ -174,12 +187,11 @@ exports.resetPassword = async (req, res) => {
             subject: "Reset password",
             text: "http://"
         };
-        const result = transporter.sendMail(mailOptions);
-        if (result) {
-            res.status(200).json({ message: "Reset password successfully!" });
-        }
-        */
+        transporter.sendMail(mailOptions);*/
+
+        const result = new Result('Reset password successfully');
+        res.status(200).send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };

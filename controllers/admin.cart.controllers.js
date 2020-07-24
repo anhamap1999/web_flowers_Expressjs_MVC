@@ -1,12 +1,14 @@
 const Cart = require('../models/cart');
+const Result = require('../utils/result');
+const { BadRequest, NotFound } = require('../utils/error');
 const perPage = 20;
 
-exports.listCarts = async (req, res) => {
+exports.listCarts = async (req, res, next) => {
     try {
         const page = req.query.page ? req.query.page - 1 : 0;
         const carts = await Cart.find({ status: 'active' }).limit(perPage).skip(perPage * page);
         if (carts.length <= 0) {
-            res.status(404).json({ message: 'Cart not found!' });
+            throw new NotFound('Cart not found');
         }
         const users = carts.map(cart => {
             return cart.username;
@@ -15,25 +17,13 @@ exports.listCarts = async (req, res) => {
         uniqueSet = new Set(jsonObject);
         uniqueUsers = Array.from(uniqueSet).map(JSON.parse);
 
-        let result = [];
+        let cartsList = [];
         uniqueUsers.forEach(user => {
             const cartsByUser = carts.filter(cart => {
                 return cart.username === user;
             });
             let data = {
                 username: user,                
-                //Solution 1:
-                /*
-                total_price: cartsByUser.reduce((total, cart) => {
-                    return total + cart.item.unit_price * cart.item.quantity;
-                }, 0),
-                items: cartsByUser.map(cart => {
-                    return cart.item;
-                })
-                */
-
-                //Solution 2:
-                /**/
                 total_price: cartsByUser.reduce((total, cart) => {
                     return total + cart.unit_price * cart.quantity;
                 }, 0),
@@ -41,10 +31,12 @@ exports.listCarts = async (req, res) => {
                     return {flower_id: cart.flower_id, unit_price: cart.unit_price, quantity: cart.quantity};
                 })
             }            
-            result.push(data);
+            cartsList.push(data);
         });
-        res.status(200).json(result);
+
+        const result = new Result('Successful', cartsList);
+        res.status(200).send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };

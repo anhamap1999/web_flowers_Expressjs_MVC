@@ -1,53 +1,67 @@
 const User = require('../models/user');
 const Cart = require('../models/cart');
 const bcrypt = require('bcrypt');
+const Result = require('../utils/result');
+const { BadRequest, NotFound } = require('../utils/error');
 
-exports.getUser = (req, res) => {
-    res.status(200).json({ user: req.user });
+exports.getUser = (req, res, next) => {
+    const result = new Result('Successful', req.user);
+    res.status(200).send(result);
 };
 
-exports.updateUser = async (req, res) => {
+exports.updateUser = async (req, res, next) => {
     try {
         const user = req.user;
-        const result = await user.update(req.body);
-        res.status(200).json({ user: result });
+        await user.update(req.body);
+
+        const result = new Result('Update successfully');
+        res.status(200).send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-exports.updatePassword = async (req, res) => {
+exports.updatePassword = async (req, res, next) => {
     try {
         const user = req.user;
+        
         const isAuth = await bcrypt.compare(req.body.password, user.password);
         if (!isAuth) {
-            throw error = { message: "Password is incorrect!" };
+            throw new BadRequest('Password is incorrect', 'password', 'invalid', 'Invalid password');
         }
+
         const hash = await bcrypt.hash(req.body.new_password, 10);
-        const result = await bcrypt.compare(req.body.confirm_new_password, hash);
-        if (!result) {
-            throw error = { message: "Passwords do not match!" };
+        const compare_result = await bcrypt.compare(req.body.confirm_new_password, hash);
+        if (!compare_result) {
+            throw new BadRequest('Passwords do not match', 'password', 'invalid', 'Passwords do not match');
         }
+        
         user.password = hash;
         await user.save();
-        res.status(200).json({ message: "Update password successfully!" });
+
+        const result = new Result('Update password successfully');
+        res.status(200).send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-exports.deleteUser = async (req, res) => {
+exports.deleteUser = async (req, res, next) => {
     try {
         const user = req.user;
+
         const cart = await Cart.findOne({ username: user.username, status: 'active' });
         if (cart) {
             cart.status = 'disabled';
             await cart.save();
         }
+
         user.status = 'disabled';
         await user.save();
-        res.status(200).json({ message: 'Delete successfully!' });
+
+        const result = new Result('Delete successfully');
+        res.status(200).send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };

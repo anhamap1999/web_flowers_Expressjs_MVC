@@ -1,25 +1,30 @@
 const Order = require('../models/order');
+const Result = require('../utils/result');
+const { BadRequest, NotFound } = require('../utils/error');
 const perPage = 20;
 
-exports.listOrdersByAdmin = async (req, res) => {
+exports.listOrdersByAdmin = async (req, res, next) => {
     try {
         const page = req.query.page ? req.query.page - 1 : 0;
         const orders = await Order.find({ status: 'active' }).limit(perPage).skip(perPage * page);
         if (orders.length > 0) {
-            res.status(200).json(orders);
+            const result = new Result('Successful', orders);
+            res.status(200).send(result);
         } else {
-            throw error;
+            throw new NotFound('Cart not found');
         }
     } catch (error) {
-        res.status(404).json({ message: 'Order not found!' });
+        next(error);
     }
 };
 
-exports.getOrderByAdmin = async (req, res) => {
+exports.getOrderByAdmin = async (req, res, next) => {
     try {
         const order = await Order.findOne({ _id: req.params.id, status: 'active' });
-        res.status(200).json({ order: order });
+        const result = new Result('Successful', order);
+        res.status(200).send(result);
     } catch (error) {
-        res.status(400).json({ message: 'Invalid request!' });
+        error = new BadRequest('Order not found', 'order_id', 'invalid', 'Invalid order_id');
+        next(error);
     }
 };

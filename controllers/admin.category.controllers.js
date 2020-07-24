@@ -1,31 +1,41 @@
 const Category = require('../models/category');
+const Result = require('../utils/result');
+const { BadRequest, NotFound } = require('../utils/error');
 
-exports.addCategory = async (req, res) => {
+exports.addCategory = async (req, res, next) => {
     try {
         const category = new Category(req.body);
-        const result = await category.save();
-        res.status(201).json({ category: result });
+        const savedCategory = await category.save();
+
+        const result = new Result('Add successfully', savedCategory);
+        res.status(200).send(result);
     } catch (error) {
-        res.status(500).json(error);
+        next(error);
     }
 };
 
-exports.updateCategory = async (req, res) => {
+exports.updateCategory = async (req, res, next) => {
     try {
-        const result = await Category.findOneAndUpdate({ _id: req.params.id, status: 'active' }, req.body);
-        res.status(200).json({ category: result });
+        await Category.findOneAndUpdate({ _id: req.params.id, status: 'active' }, req.body);
+
+        const result = new Result('Update successfully');
+        res.status(200).send(result);
     } catch (error) {
-        res.status(400).json({ message: 'Invalid request!' });
+        error = new BadRequest('Category not found', 'category_id', 'invalid', 'Invalid category_id');
+        next(error);
     }
 }
 
-exports.deleteCategory = async (req, res) => {
+exports.deleteCategory = async (req, res, next) => {
     try {
         let category = await Category.findOne({ _id: req.params.id, status: 'active' });
         category.status = 'disabled';
-        const result = await category.save();
-        res.status(200).json({ category: result });
+        await category.save();
+
+        const result = new Result('Delete successfully');
+        res.status(200).send(result);
     } catch (error) {
-        res.status(400).json({ message: 'Invalid request!' });
+        error = new BadRequest('Category not found', 'category_id', 'invalid', 'Invalid category_id');
+        next(error);
     }
 };

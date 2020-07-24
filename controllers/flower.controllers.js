@@ -1,53 +1,63 @@
 const Flower = require('../models/flower');
+const Result = require('../utils/result');
+const { BadRequest, NotFound } = require('../utils/error');
 const perPage = 20;
 
-exports.listFlowers = async (req, res) => {
+exports.listFlowers = async (req, res, next) => {
     try {
         const page = req.query.page ? req.query.page - 1 : 0;
         const flowers = await Flower.find({ status: 'active' }).limit(perPage).skip(perPage * page);
+
         if (flowers.length > 0) {
-            res.status(200).json({ flowers: flowers });
+            const result = new Result('Successful', flowers, await Flower.countDocuments({ status: 'active' }) / perPage);
+            res.status(200).send(result);
         } else {
-            throw error;
+            throw new NotFound('Flower not found!');
         }
     } catch (error) {
-        res.status(404).json({ message: 'Flower not found!' });
+        next(error);
     }
 };
 
-exports.getFlower = async (req, res) => {
+exports.getFlower = async (req, res, next) => {
     try {
         const flower = await Flower.findOne({ _id: req.params.id, status: 'active' });
-        res.status(200).json({ flower: flower });
+        const result = new Result('Successful', flower);
+        res.status(200).send(result);
     } catch (error) {
-        res.status(404).json({ message: 'Flower not found!' });
+        error = new NotFound('Flower not found', 'flower_id', 'invalid', 'Invalid flower_id');
+        next(error);
     }
 };
 
-exports.getFlowerByCategory = async (req, res) => {
+exports.getFlowerByCategory = async (req, res, next) => {
     try {
         const page = req.query.page ? req.query.page - 1 : 0;
         const flowers = await Flower.find({ category_id: req.query.category_id, status: 'active' }).limit(perPage).skip(perPage * page);
+
         if (flowers.length > 0) {
-            res.status(200).json({ flowers: flowers });
+            const result = new Result('Successful', flowers);
+            res.status(200).send(result);
         } else {
-            throw error;
+            throw new NotFound('Flower not found');
         }
     } catch (error) {
-        res.status(404).json({ message: 'Flower not found!' });
+        next(error);
     }
 };
 
-exports.searchFlower = async (req, res) => {
+exports.searchFlower = async (req, res, next) => {
     try {
         const page = req.query.page ? req.query.page - 1 : 0;
         const flowers = await Flower.find({ $text: { $search: req.query.keyword }, status: 'active' }).limit(perPage).skip(perPage * page);
+
         if (flowers.length > 0) {
-            res.status(200).json({ flowers: flowers });
+            const result = new Result('Successful', flowers);
+            res.status(200).send(result);
         } else {
-            throw error;
+            throw new NotFound('Flower not found');
         }
     } catch (error) {
-        res.status(404).json({ message: 'Flower not found!' });
+        next(error);
     }
 };
