@@ -5,6 +5,7 @@ const { addFlower, updateFlower, deleteFlower } = require('../controllers/admin.
 const { isAuth } = require('../middlewares/auth.middleware');
 const { grantAccess } = require('../middlewares/access-control.middleware');
 const { uploadImage } = require('../middlewares/upload-image.middleware');
+const { handleError } = require('../middlewares/error.middleware');
 const { flowerValidator } = require('../validators/flower.validators');
 
 const router = express.Router();
@@ -16,5 +17,7 @@ router.use(isAuth);
 router.post('/add', grantAccess('createAny', 'flower'), flowerValidator, uploadImage, addFlower);
 router.put('/update/:id', grantAccess('updateAny', 'flower'), flowerValidator, uploadImage, updateFlower);
 router.delete('/delete/:id', grantAccess('deleteAny', 'flower'), deleteFlower);
+
+router.use(handleError);
 
 module.exports = router;

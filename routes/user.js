@@ -5,6 +5,7 @@ const { listUsers, getUserByAdmin, deleteUserByAdmin } = require('../controllers
 const { register, login, refreshToken, logout, forgotPassword, resetPassword } = require('../controllers/auth.controllers');
 const { isAuth } = require('../middlewares/auth.middleware');
 const { grantAccess } = require('../middlewares/access-control.middleware');
+const { handleError } = require('../middlewares/error.middleware');
 const { registerValidator, loginValidator, updateUserValidator, forgotPasswordValidator } = require('../validators/user.validators');
 
 const router = express.Router();
@@ -23,5 +24,7 @@ router.put('/update', grantAccess('updateOwn', 'account'), updateUserValidator, 
 router.patch('/update-password', grantAccess('updateOwn', 'account'), updatePassword);
 router.patch('/logout', grantAccess('updateOwn', 'account'), logout);
 router.delete('/delete', grantAccess('deleteOwn', 'account'), deleteUser);
+
+router.use(handleError);
 
 module.exports = router;
