@@ -1,0 +1,5 @@
+data/
+mongo/
+uploads/
+templates/
+node_modules/
